@@ -1,11 +1,33 @@
-## tensorflow seq2seq chatbot
+## ChatterBot para AMMD 
 
-> *Note: the repository is not maintained. Feel free to PM me if you'd like to take up the maintainance.*
+> *Importante : Este repositório foi desenvolvido como uma forma de treinar um rede neural LSTM, mas precisamente
+uma rede sequence to sequence afim de treinar um bot de proposito geral, e adiquirir experiencia com Deep Learning.*
 
 Build a general-purpose conversational chatbot based on a hot 
 seq2seq approach implemented in [tensorflow](https://www.tensorflow.org/versions/master/tutorials/seq2seq/index.html#sequence-to-sequence_basics).
 Since it doesn't produce good results so far, also consider other implementations of [seq2seq](https://github.com/nicolas-ivanov/seq2seq_chatbot_links).
 
+**Setup**
+    
+    git clone https://github.com/erickrribeiro/LSTM-Chatterbot.git
+    cd LSTM-Chatterbot
+   
+Durante o decorrer das épocas no treinamento da rede neural este projeto fará uma serie de backups, para garantir que a 
+ qualquer momento será possível parar o treinamente, avaliar o desempenho da rede, e continuar e onde parou caso seja
+ necessário.
+ 
+ Para isso é necessário executar o seguinte script:
+ 
+    ./setup 
+ Como resultado será criado o seguinte esquema de pastas, onde
+ os metadados da rede serão armazenados.
+    
+```
+└── experiment                    --  
+    ├── data                      -- 
+    ├── nn_models                 --  
+    └── results                   -- 
+```
 The current results are pretty lousy:
 
     hello baby	        - hello
@@ -36,12 +58,6 @@ Everyone is welcome to investigate the code and suggest the improvements.
 [![seq2seq](https://4.bp.blogspot.com/-aArS0l1pjHQ/Vjj71pKAaEI/AAAAAAAAAxE/Nvy1FSbD_Vs/s640/2TFstaticgraphic_alt-01.png)](http://4.bp.blogspot.com/-aArS0l1pjHQ/Vjj71pKAaEI/AAAAAAAAAxE/Nvy1FSbD_Vs/s1600/2TFstaticgraphic_alt-01.png)
 
 Curtesy of [this](http://googleresearch.blogspot.ru/2015/11/computer-respond-to-this-email.html) article.
-
-**Setup**
-
-    git clone git@github.com:nicolas-ivanov/tf_seq2seq_chatbot.git
-    cd tf_seq2seq_chatbot
-    bash setup.sh
     
 **Run**
 
