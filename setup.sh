@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# create and own the directories to store results locally
-save_dir='/var/lib/tf_seq2seq_chatbot'
+# Criado diretórios os resultados serão armazanados.
+save_dir='./experiment'
 sudo mkdir -p $save_dir'/data/'
-sudo mkdir -p $save_dir'/nn_models/'
+sudo mkdir -p $save_dir'/models/'
 sudo mkdir -p $save_dir'/results/'
 sudo chown -R "$USER" $save_dir
 

@@ -1,4 +1,5 @@
 *.pyc
-.idea/*
 venv/*
 .DS_Store
+.idea/
+experiment/
