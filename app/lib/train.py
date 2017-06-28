@@ -26,12 +26,12 @@ def train():
 
     with tf.Session() as sess:
 
-        # Create model.
+        #Criando o modelo, internamete verifica se já foi criado.
         print ("Criando %d camada(s) de tamanho %d . "%(FLAGS.num_layers, FLAGS.size))
         model = create_model(sess, forward_only=False)
 
-        # Read data into buckets and compute their sizes.
-        print ("Reading development and training data (limit: %d)." % FLAGS.max_train_data_size)
+        #Lendo dados de treino e colocando nos buckets.
+        print ("Carregando os dados da base de treino (limite: %d)."%(FLAGS.max_train_data_size))
         dev_set = read_data(dev_data)
         train_set = read_data(train_data, FLAGS.max_train_data_size)
         train_bucket_sizes = [len(train_set[b]) for b in xrange(len(BUCKETS))]

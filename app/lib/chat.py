@@ -19,13 +19,14 @@ def chat():
     vocab, rev_vocab = data_utils.initialize_vocabulary(vocab_path)
 
     # Decode from standard input.
-    sys.stdout.write("> ")
+    sys.stdout.write("Eu: ")
     sys.stdout.flush()
     sentence = sys.stdin.readline()
 
     while sentence:
         predicted_sentence = get_predicted_sentence(sentence, vocab, rev_vocab, model, sess)
-        print(predicted_sentence)
-        print("> ")
+        print("Bot: %s "%(predicted_sentence))
+
+        sys.stdout.write("Eu: ")
         sys.stdout.flush()
         sentence = sys.stdin.readline()

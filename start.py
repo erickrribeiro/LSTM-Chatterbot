@@ -11,7 +11,12 @@ def start_train(_):
     train()
 
 def start_test(_):
-    predict()
+    checkpoint=None
+
+    if len(sys.argv) == 3:
+        checkpoint = sys.argv[2]
+
+    predict(checkpoint=checkpoint)
 
 def start_chat(_):
     chat()

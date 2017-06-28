@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """Utilities for downloading data from WMT, tokenizing, vocabularies."""
 from __future__ import absolute_import
 from __future__ import division
@@ -179,17 +182,15 @@ def data_to_token_ids(data_path, target_path, vocabulary_path,
 
 
 def prepare_dialog_data(data_dir, vocabulary_size):
-  """Get dialog data into data_dir, create vocabularies and tokenize data.
+  """Obter dados de diálogo em data_dir, criar vocabulários e tokenizar dados.
+  :param data_dir: diretório no qual os conjuntos de dados serão armazenados.
+  :param vocabulary_size: tamanho do vocabulário em inglês para criar e usar.
+  :return:
+       Uma tupla de 3 elementos:
+       (1) caminho para o token-ids para o conjunto de dados de treinamento de bate-papo,
+       (2) caminho para o token-ids para o conjunto de dados de desenvolvimento do bate-papo,
+       (3) caminho para o arquivo de vocabulário de bate-papo
 
-  Args:
-    data_dir: directory in which the data sets will be stored.
-    vocabulary_size: size of the English vocabulary to create and use.
-
-  Returns:
-    A tuple of 3 elements:
-      (1) path to the token-ids for chat training data-set,
-      (2) path to the token-ids for chat development data-set,
-      (3) path to the chat vocabulary file
   """
   # Get dialog data to the specified directory.
   train_path = get_dialog_train_set_path(data_dir)

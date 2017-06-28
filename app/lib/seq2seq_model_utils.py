@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -10,9 +12,35 @@ from app.configs.config import FLAGS, BUCKETS
 from app.lib import data_utils
 from app.lib import seq2seq_model
 
+def load_model(session, forward_only, checkpoint):
+    model = seq2seq_model.Seq2SeqModel(
+        source_vocab_size=FLAGS.vocab_size,
+        target_vocab_size=FLAGS.vocab_size,
+        buckets=BUCKETS,
+        size=FLAGS.size,
+        num_layers=FLAGS.num_layers,
+        max_gradient_norm=FLAGS.max_gradient_norm,
+        batch_size=FLAGS.batch_size,
+        learning_rate=FLAGS.learning_rate,
+        learning_rate_decay_factor=FLAGS.learning_rate_decay_factor,
+        use_lstm=False,
+        forward_only= forward_only)
+
+    ckpt = tf.train.get_checkpoint_state(FLAGS.model_dir, checkpoint)
+    if ckpt and gfile.Exists(ckpt.model_checkpoint_path):
+        print("Carregando o ultimo modelo treinado e salvo em %s" % (ckpt.model_checkpoint_path))
+        model.saver.restore(session, ckpt.model_checkpoint_path)
+    else:
+        print("Modelo não encontrado.")
+    return model
 
 def create_model(session, forward_only):
-  """Create translation model and initialize or load parameters in session."""
+  """
+  Cria o modelo inicializando os pesos ou carrega o ultimo modelo treinado na session.
+  :param session:
+  :param forward_only:
+  :return:
+  """
   model = seq2seq_model.Seq2SeqModel(
       source_vocab_size=FLAGS.vocab_size,
       target_vocab_size=FLAGS.vocab_size,
@@ -28,10 +56,10 @@ def create_model(session, forward_only):
 
   ckpt = tf.train.get_checkpoint_state(FLAGS.model_dir)
   if ckpt and gfile.Exists(ckpt.model_checkpoint_path):
-    print("Reading model parameters from %s" % ckpt.model_checkpoint_path)
+    print("Carregando o ultimo modelo treinado e salvo em %s"%(ckpt.model_checkpoint_path))
     model.saver.restore(session, ckpt.model_checkpoint_path)
   else:
-    print("Created model with fresh parameters.")
+    print("Criando um novo modelo com parâmetros novos.")
     session.run(tf.initialize_all_variables())
   return model
 
