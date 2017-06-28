@@ -10,7 +10,7 @@ import sys
 from tensorflow.python.platform import gfile
 
 # Special vocabulary symbols - we always put them at the start.
-from tf_seq2seq_chatbot.configs.config import BUCKETS
+from app.configs.config import BUCKETS
 
 _PAD = "_PAD"
 _GO = "_GO"

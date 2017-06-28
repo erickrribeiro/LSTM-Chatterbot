@@ -2,9 +2,9 @@ import os
 
 import tensorflow as tf
 
-from tf_seq2seq_chatbot.configs.config import TEST_DATASET_PATH, FLAGS
-from tf_seq2seq_chatbot.lib import data_utils
-from tf_seq2seq_chatbot.lib.seq2seq_model_utils import create_model, get_predicted_sentence
+from app.configs.config import TEST_DATASET_PATH, FLAGS
+from app.lib import data_utils
+from app.lib.seq2seq_model_utils import create_model, get_predicted_sentence
 
 
 def predict():

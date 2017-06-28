@@ -6,9 +6,9 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.python.platform import gfile
 
-from tf_seq2seq_chatbot.configs.config import FLAGS, BUCKETS
-from tf_seq2seq_chatbot.lib import data_utils
-from tf_seq2seq_chatbot.lib import seq2seq_model
+from app.configs.config import FLAGS, BUCKETS
+from app.lib import data_utils
+from app.lib import seq2seq_model
 
 
 def create_model(session, forward_only):
