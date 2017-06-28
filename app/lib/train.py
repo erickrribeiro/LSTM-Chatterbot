@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
 import os
 import math
@@ -16,15 +19,15 @@ from app.configs.config import FLAGS, BUCKETS
 from app.lib.data_utils import read_data
 from app.lib import data_utils
 
-
 def train():
-    print("Preparing dialog data in %s" % FLAGS.data_dir)
+    print ("Preparando dados do dataset em %s"% FLAGS.data_dir)
+
     train_data, dev_data, _ = data_utils.prepare_dialog_data(FLAGS.data_dir, FLAGS.vocab_size)
 
     with tf.Session() as sess:
 
         # Create model.
-        print("Creating %d layers of %d units." % (FLAGS.num_layers, FLAGS.size))
+        print ("Criando %d camada(s) de tamanho %d . "%(FLAGS.num_layers, FLAGS.size))
         model = create_model(sess, forward_only=False)
 
         # Read data into buckets and compute their sizes.
