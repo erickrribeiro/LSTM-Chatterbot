@@ -13,6 +13,13 @@ from app.lib import data_utils
 from app.lib import seq2seq_model
 
 def load_model(session, forward_only, checkpoint):
+    """
+    Responsável por carregar o modelo salvou anteriormente no arquivo de checkpoint.
+    :param session:
+    :param forward_only:
+    :param checkpoint:
+    :return:
+    """
     model = seq2seq_model.Seq2SeqModel(
         source_vocab_size=FLAGS.vocab_size,
         target_vocab_size=FLAGS.vocab_size,
@@ -63,11 +70,10 @@ def create_model(session, forward_only):
     session.run(tf.initialize_all_variables())
   return model
 
-
 def get_predicted_sentence(input_sentence, vocab, rev_vocab, model, sess):
     input_token_ids = data_utils.sentence_to_token_ids(input_sentence, vocab)
 
-    # Which bucket does it belong to?
+    #Calcula a qual bucket a sentença pertence
     bucket_id = min([b for b in xrange(len(BUCKETS)) if BUCKETS[b][0] > len(input_token_ids)])
     outputs = []
 

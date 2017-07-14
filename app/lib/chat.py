@@ -7,7 +7,6 @@ from app.configs.config import FLAGS
 from app.lib import data_utils
 from app.lib.seq2seq_model_utils import create_model, get_predicted_sentence
 
-
 def chat():
   with tf.Session() as sess:
     # Create model and load parameters.
@@ -24,8 +23,8 @@ def chat():
     sentence = sys.stdin.readline()
 
     while sentence:
-        predicted_sentence = get_predicted_sentence(sentence, vocab, rev_vocab, model, sess)
-        print("Bot: %s "%(predicted_sentence))
+        response = get_predicted_sentence(sentence, vocab, rev_vocab, model, sess)
+        print("Bot: %s "%(response))
 
         sys.stdout.write("Eu: ")
         sys.stdout.flush()

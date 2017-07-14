@@ -4,7 +4,7 @@
 import tensorflow as tf
 import sys
 from app.lib.train import train
-from app.lib.predict import predict
+from app.lib.test import tester
 from app.lib.chat import chat
 
 def start_train(_):
@@ -16,7 +16,7 @@ def start_test(_):
     if len(sys.argv) == 3:
         checkpoint = sys.argv[2]
 
-    predict(checkpoint=checkpoint)
+    tester(checkpoint=checkpoint)
 
 def start_chat(_):
     chat()

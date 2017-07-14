@@ -34,6 +34,8 @@ def train():
         print ("Carregando os dados da base de treino (limite: %d)."%(FLAGS.max_train_data_size))
         dev_set = read_data(dev_data)
         train_set = read_data(train_data, FLAGS.max_train_data_size)
+
+        print ("Configurando tamanho do buckets no treino.")
         train_bucket_sizes = [len(train_set[b]) for b in xrange(len(BUCKETS))]
         train_total_size = float(sum(train_bucket_sizes))
 
@@ -49,38 +51,52 @@ def train():
         previous_losses = []
 
         while True:
-          # Choose a bucket according to data distribution. We pick a random number
-          # in [0, 1] and use the corresponding interval in train_buckets_scale.
+          # É escolhido um bucket de acordo com a distribuição de dados. Escolhemos um número
+          # aleatório entre [0, 1] e usamos o intervalo correspondente em train_buckets_scale.
           random_number_01 = np.random.random_sample()
-          bucket_id = min([i for i in xrange(len(train_buckets_scale))
-                           if train_buckets_scale[i] > random_number_01])
+          bucket_id = min([
+              i for i in xrange(len(train_buckets_scale)) if train_buckets_scale[i] > random_number_01
+          ])
 
-          # Get a batch and make a step.
+          #Obtem o batch e avança.
           start_time = time.time()
-          encoder_inputs, decoder_inputs, target_weights = model.get_batch(
-              train_set, bucket_id)
+          encoder_inputs, decoder_inputs, target_weights = model.get_batch(train_set, bucket_id)
 
-          _, step_loss, _ = model.step(sess, encoder_inputs, decoder_inputs,
-                                       target_weights, bucket_id, forward_only=False)
+          _, step_loss, _ = model.step(
+              sess,
+              encoder_inputs,
+              decoder_inputs,
+              target_weights,
+              bucket_id,
+              forward_only=False)
 
+          #Calcula o tempo gasta para executar esse passo.
           step_time += (time.time() - start_time) / FLAGS.steps_per_checkpoint
           loss += step_loss / FLAGS.steps_per_checkpoint
           current_step += 1
 
-          # Once in a while, we save checkpoint, print statistics, and run evals.
+          # Salvando o chekpoint e imprimo estatísticas da epoca na tela.
           if current_step % FLAGS.steps_per_checkpoint == 0:
-            # Print statistics for the previous epoch.
+            # Imprimir estatísticas para a época anterior.
             perplexity = math.exp(loss) if loss < 300 else float('inf')
-            print ("global step %d learning rate %.4f step-time %.2f perplexity %.2f" %
-                   (model.global_step.eval(), model.learning_rate.eval(), step_time, perplexity))
-
+            print("global step %d learning rate %.4f step-time %.2f perplexity %.2f"%(model.global_step.eval(), model.learning_rate.eval(), step_time, perplexity))
+ 
             # Decrease learning rate if no improvement was seen over last 3 times.
+
+            #print ("--------------------------")
+            #print ("Numero de batches visto %4f"%(model.global_step.eval))
+            #print ("Taxa de aprendizado %4f"%(model.learning_rate.eval()))
+            #print ("Tempo gasto: %.2f"%(step_time))
+            #print ("Perplexidade: %.2f"%(perplexity))
+            #print ("--------------------------")
+
+            # Diminua a taxa de aprendizado se nenhuma melhoria foi observada nas últimas 3 vezes.
             if len(previous_losses) > 2 and loss > max(previous_losses[-3:]):
               sess.run(model.learning_rate_decay_op)
 
             previous_losses.append(loss)
 
-            # Save checkpoint and zero timer and loss.
+            # Salva o checkpoint e zera o timer e o loss.
             checkpoint_path = os.path.join(FLAGS.model_dir, "model.ckpt")
             model.saver.save(sess, checkpoint_path, global_step=model.global_step)
             step_time, loss = 0.0, 0.0
