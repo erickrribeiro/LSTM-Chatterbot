@@ -24,7 +24,7 @@ Durante o decorrer das épocas no treinamento da rede neural este projeto fará 
     ├── nn_models                 --  
     └── results                   -- 
 ```
-The current results are pretty lousy:
+Resultado:
 
     hello baby	            - hello
     how old are you ?           - twenty .
